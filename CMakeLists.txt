@@ -40,13 +40,22 @@ add_executable(matrizComNumeros matrizComNumeros.c )
 pico_set_program_name(matrizComNumeros "matrizComNumeros")
 pico_set_program_version(matrizComNumeros "0.1")
 
+# Generate PIO header
+pico_generate_pio_header(matrizComNumeros ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
+
+
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(matrizComNumeros 1)
 pico_enable_stdio_usb(matrizComNumeros 1)
 
 # Add the standard library to the build
 target_link_libraries(matrizComNumeros
-        pico_stdlib)
+        pico_stdlib
+        hardware_spi
+        hardware_i2c
+        hardware_pio
+        
+        )
 
 # Add the standard include files to the build
 target_include_directories(matrizComNumeros PRIVATE
@@ -59,4 +68,7 @@ target_link_libraries(matrizComNumeros
         )
 
 pico_add_extra_outputs(matrizComNumeros)
+
+set(PICO_SDK_PATH "C:/Users/User/.pico-sdk/sdk/2.1.0")
+include_directories(${PICO_SDK_PATH}/src)
 
